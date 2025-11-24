@@ -26,18 +26,25 @@ This project demonstrates a modular workflow where multiple AI agents collaborat
 
 1. Clone the repository:
   ```bash
-    git clone https://github.com/your-username/EssayWriter.git
-    cd EssayWriter
+git clone https://github.com/your-username/EssayWriter.git
+```
+cd EssayWriter 
 2. Create a virtual environment:
+```bash
   python -m venv myenv
   source myenv/bin/activate  # Linux / Mac
   myenv\Scripts\activate     # Windows
+```
 
 3. Install dependencies:
+```bash
   pip install -r requirements.txt
+```
 
-4. Create a .env file in the project root and add:
+5. Create a .env file in the project root and add:
+```bash
   GOOGLE_API_KEY=your_google_api_key_here
   TAVILY_SEARCH_API_KEY=your_tavily_api_key_here
+```
 
 
