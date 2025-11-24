@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Essay Writer</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Remarkable for Markdown rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="bg-gradient-to-br from-gray-900 to-black text-white min-h-screen flex flex-col items-center p-6">
+
+  <h1 class="text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500">
+    AI Essay Writer
+  </h1>
+
+  <!-- Input card -->
+  <div class="w-full max-w-3xl bg-gray-800/40 backdrop-blur-xl border border-gray-700 shadow-xl rounded-2xl p-6">
+    <textarea id="taskInput" placeholder="Enter your topic or question..." class="w-full h-32 bg-gray-900/40 border border-gray-700 text-gray-100 p-2 rounded-xl"></textarea>
+    <button id="generateBtn" class="w-full py-3 mt-4 text-lg rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90 transition">
+      Generate Essay
+    </button>
+  </div>
+
+  <!-- Output card -->
+  <div id="outputContainer" class="mt-10 w-full max-w-3xl bg-gray-800/40 border border-gray-700 shadow-xl rounded-2xl p-6 hidden"></div>
+
+  <script>
+    const taskInput = document.getElementById('taskInput');
+    const generateBtn = document.getElementById('generateBtn');
+    const outputContainer = document.getElementById('outputContainer');
+
+    generateBtn.addEventListener('click', async () => {
+      const task = taskInput.value.trim();
+      if (!task) return alert("Please enter a topic or question.");
+
+      // Loading state
+      generateBtn.disabled = true;
+      generateBtn.textContent = "Generating...";
+      outputContainer.classList.add('hidden');
+
+      try {
+        const res = await fetch("http://localhost:8000/api/essay", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ task }),
+        });
+        const data = await res.json();
+
+        // Render Markdown output
+        outputContainer.innerHTML = marked.parse(data.output || "");
+        outputContainer.classList.remove('hidden');
+      } catch (err) {
+        console.error(err);
+        alert("Error generating essay. Make sure your backend is running.");
+      } finally {
+        generateBtn.disabled = false;
+        generateBtn.textContent = "Generate Essay";
+      }
+    });
+  </script>
+
+</body>
+</html>

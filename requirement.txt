@@ -1,0 +1,7 @@
+langgraph
+langchain-community
+langchain
+langchain-tavily
+langchain-google-genai
+langgraph-checkpoint-sqlite
+langchain-core 
